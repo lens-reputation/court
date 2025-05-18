@@ -24,11 +24,11 @@ const config = createConfig(
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "3a8170812b534d0ff9d794f19a901d64",
 
     // Required app information
-    appName: "Verdant - Personal Token Platform",
+    appName: "Lens Judge",
 
     // Optional app information
-    appDescription: "Create and grow your personal token in the Lens ecosystem",
-    appUrl: "https://verdant.app", // Your app's URL
+    appDescription: "TBD",
+    appUrl: "https://lensjudge.xyz", // Your app's URL
     appIcon: "/placeholder-logo.png", // Your app's icon
   }),
 );

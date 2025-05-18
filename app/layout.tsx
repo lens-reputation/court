@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Web3Provider } from "@/components/providers/web3-provider";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { Toaster } from "sonner";
+import { AppProvider } from "@/components/providers/app-prodiver";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <ThemeProvider attribute="class" disableTransitionOnChange>
+        <ThemeProvider attribute="class" forcedTheme="light" disableTransitionOnChange>
           <Web3Provider>
             <AuthProvider>
-              {children}
-              <Toaster position="bottom-right" closeButton />
+              <AppProvider>{children}</AppProvider>
             </AuthProvider>
           </Web3Provider>
         </ThemeProvider>
