@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { LoginLensAccountsDialog } from "@/components/login-lens-accounts-dialog";
 import { useAuth } from "@/components/providers/auth-provider";
 import { Button } from "@/components/ui/button";
@@ -16,6 +18,7 @@ import { useAccount } from "wagmi";
 
 export function LoginConnectButton() {
   const [showLensDialog, setShowLensDialog] = useState(false);
+  const router = useRouter();
 
   const { address, isConnected: isWalletConnected } = useAccount();
   const { isLoading: isAuthLoading, account, logout } = useAuth();
@@ -25,12 +28,15 @@ export function LoginConnectButton() {
       const loadProfilesAndShowDialog = async () => {
         if (!account) {
           setShowLensDialog(true);
+        } else {
+          // Redirect to judge page if account is already connected
+          router.push("/judge");
         }
       };
 
       loadProfilesAndShowDialog();
     }
-  }, [isWalletConnected, address, account]);
+  }, [isWalletConnected, address, account, router]);
 
   return (
     <>
@@ -38,37 +44,39 @@ export function LoginConnectButton() {
         {({ isConnected, isConnecting, show, hide, address, ensName }) => {
           if (isConnected && account) {
             return (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="gap-2 border-purple-600 text-purple-600 hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-900"
-                  >
-                    <img
-                      src={account.metadata?.picture || "/placeholder-user.jpg"}
-                      alt="Lens Profile"
-                      className="h-4 w-4 rounded-full"
-                    />
-                    @{account.username?.localName}
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[200px]">
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setShowLensDialog(true);
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <User className="mr-2 h-4 w-4 text-purple-500" />
-                    Change profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={logout} className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4 text-purple-500" />
-                    Disconnect from Lens
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div className="flex w-full">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="flex w-full items-center justify-center gap-2 border-purple-600 text-purple-600 hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-900"
+                    >
+                      <img
+                        src={account.metadata?.picture || "/placeholder-user.jpg"}
+                        alt="Lens Profile"
+                        className="h-5 w-5 rounded-full"
+                      />
+                      <span className="truncate">@{account.username?.localName}</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-[200px]">
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setShowLensDialog(true);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <User className="mr-2 h-4 w-4 text-purple-500" />
+                      Change profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout} className="cursor-pointer">
+                      <LogOut className="mr-2 h-4 w-4 text-purple-500" />
+                      Disconnect from Lens
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             );
           }
 

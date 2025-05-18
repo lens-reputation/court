@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LoginConnectButton } from "@/components/login-connect-button";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -110,16 +111,25 @@ export default function ConnectPage() {
                 </ul>
               </motion.div>
             </CardContent>
-            <CardFooter className="pb-6 pt-2">
+            <CardFooter className="flex flex-col pb-6 pt-2">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.1 }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full"
+                className="flex w-full gap-3"
               >
-                <LoginConnectButton />
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-1">
+                  <Button variant="default" className="w-full bg-purple-600 text-white hover:bg-purple-700" asChild>
+                    <Link href="/judge" className="flex items-center justify-center gap-2">
+                      <Gavel className="h-5 w-5" />
+                      Go Judge
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-1">
+                  <LoginConnectButton />
+                </motion.div>
               </motion.div>
             </CardFooter>
           </Card>
