@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LoginLensAccountsDialog } from "@/components/login-lens-accounts-dialog";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -14,29 +13,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ConnectKitButton } from "connectkit";
 import { ChevronDown, Loader2, LogOut, User, Wallet } from "lucide-react";
-import { useAccount } from "wagmi";
 
 export function LoginConnectButton() {
   const [showLensDialog, setShowLensDialog] = useState(false);
-  const router = useRouter();
 
-  const { address, isConnected: isWalletConnected } = useAccount();
   const { isLoading: isAuthLoading, account, logout } = useAuth();
-
-  useEffect(() => {
-    if (isWalletConnected && address) {
-      const loadProfilesAndShowDialog = async () => {
-        if (!account) {
-          setShowLensDialog(true);
-        } else {
-          // Redirect to judge page if account is already connected
-          router.push("/judge");
-        }
-      };
-
-      loadProfilesAndShowDialog();
-    }
-  }, [isWalletConnected, address, account, router]);
 
   return (
     <>
@@ -120,10 +101,7 @@ export function LoginConnectButton() {
         }}
       </ConnectKitButton.Custom>
 
-      <LoginLensAccountsDialog
-        isOpen={showLensDialog}
-        onClose={() => setShowLensDialog(false)}
-      />
+      <LoginLensAccountsDialog isOpen={showLensDialog} onClose={() => setShowLensDialog(false)} />
     </>
   );
 }

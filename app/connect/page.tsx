@@ -11,16 +11,22 @@ import { motion } from "framer-motion";
 import { ArrowRight, Award, Gavel, Loader2, Shield } from "lucide-react";
 
 export default function ConnectPage() {
-  const [isConnecting, setIsConnecting] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   const router = useRouter();
-  const { login } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   // Ensure animations only run after component is mounted
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Redirect to judge page if user is already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/judge");
+    }
+  }, [isLoggedIn, router]);
 
   if (!mounted) return null;
 
@@ -118,16 +124,23 @@ export default function ConnectPage() {
                 transition={{ duration: 0.5, delay: 1.1 }}
                 className="flex w-full gap-3"
               >
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-1">
-                  <Button variant="default" className="w-full bg-purple-600 text-white hover:bg-purple-700" asChild>
-                    <Link href="/judge" className="flex items-center justify-center gap-2">
-                      <Gavel className="h-5 w-5" />
-                      Go Judge
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-1">
+                {isLoggedIn && (
+                  <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-1">
+                    <Button variant="default" className="w-full bg-purple-600 text-white hover:bg-purple-700" asChild>
+                      <Link href="/judge" className="flex items-center justify-center gap-2">
+                        <Gavel className="h-5 w-5" />
+                        Go Judge
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </motion.div>
+                )}
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={isLoggedIn ? "flex-1" : "mx-auto flex w-full justify-center"}
+                  style={!isLoggedIn ? { maxWidth: "240px" } : {}}
+                >
                   <LoginConnectButton />
                 </motion.div>
               </motion.div>

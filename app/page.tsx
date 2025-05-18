@@ -1,26 +1,29 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Gavel, Shield, Trophy, Users, ArrowRight, Star, CheckCircle } from "lucide-react"
-import { motion } from "framer-motion"
-import { useTheme } from "next-themes"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { LoginConnectButton } from "@/components/login-connect-button";
+import { useAuth } from "@/components/providers/auth-provider";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { ArrowRight, CheckCircle, Gavel, Shield, Star, Trophy, Users } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false)
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
+  const [mounted, setMounted] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  const { isLoggedIn } = useAuth();
 
   // Ensure animations only run after component is mounted
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
       <header className="container z-10 flex items-center justify-between py-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -29,7 +32,7 @@ export default function Home() {
           className="flex items-center gap-2"
         >
           <div className="relative">
-            <Gavel className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+            <Gavel className="h-8 w-8 text-purple-600 dark:text-purple-400" />
             <motion.div
               animate={{
                 scale: [1, 1.2, 1],
@@ -39,10 +42,10 @@ export default function Home() {
                 repeat: Number.POSITIVE_INFINITY,
                 repeatDelay: 3,
               }}
-              className="absolute -top-1 -right-1 w-3 h-3 bg-pink-500 rounded-full"
+              className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-pink-500"
             />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">
+          <h1 className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-2xl font-bold tracking-tight text-transparent dark:from-purple-400 dark:to-pink-400">
             LensCourt
           </h1>
         </motion.div>
@@ -50,38 +53,32 @@ export default function Home() {
         <nav className="flex items-center gap-4">
           <Link
             href="/about"
-            className="text-sm font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+            className="text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400"
           >
             About
           </Link>
           <Link
             href="/stats"
-            className="text-sm font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+            className="text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400"
           >
             Stats
           </Link>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              asChild
-              variant="outline"
-              className="hidden sm:flex border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900"
-            >
-              <Link href="/connect">Connect Lens</Link>
-            </Button>
+            <LoginConnectButton />
           </motion.div>
         </nav>
       </header>
 
       <main className="flex-1">
         {/* Hero Section */}
-        <div className="container relative pt-12 pb-24">
+        <div className="container relative pb-24 pt-12">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-[30%] -right-[10%] w-[500px] h-[500px] bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-3xl" />
-            <div className="absolute top-[20%] -left-[10%] w-[300px] h-[300px] bg-pink-200/30 dark:bg-pink-900/20 rounded-full blur-3xl" />
-            <div className="absolute -bottom-[10%] right-[20%] w-[400px] h-[400px] bg-indigo-200/30 dark:bg-indigo-900/20 rounded-full blur-3xl" />
+            <div className="absolute -right-[10%] -top-[30%] h-[500px] w-[500px] rounded-full bg-purple-200/30 blur-3xl dark:bg-purple-900/20" />
+            <div className="absolute -left-[10%] top-[20%] h-[300px] w-[300px] rounded-full bg-pink-200/30 blur-3xl dark:bg-pink-900/20" />
+            <div className="absolute -bottom-[10%] right-[20%] h-[400px] w-[400px] rounded-full bg-indigo-200/30 blur-3xl dark:bg-indigo-900/20" />
           </div>
 
-          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -94,15 +91,15 @@ export default function Home() {
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.6 }}
-                    className="bg-purple-100 dark:bg-purple-900/50 p-2 rounded-lg"
+                    className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900/50"
                   >
-                    <Trophy className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                    <Trophy className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   </motion.div>
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.7 }}
-                    className="text-sm font-medium bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 text-transparent bg-clip-text"
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-sm font-medium text-transparent dark:from-purple-400 dark:to-pink-400"
                   >
                     Community-powered moderation
                   </motion.span>
@@ -112,10 +109,10 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.3 }}
-                  className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight"
+                  className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl"
                 >
                   Be the{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">
+                  <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-pink-400">
                     Judge
                   </span>{" "}
                   of the Lens Network
@@ -136,16 +133,16 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.5 }}
-                className="flex flex-col sm:flex-row gap-4"
+                className="flex flex-col gap-4 sm:flex-row"
               >
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Button
                     asChild
                     size="lg"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 shadow-lg shadow-purple-200 dark:shadow-purple-900/30"
+                    className="border-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-200 hover:from-purple-700 hover:to-pink-700 dark:shadow-purple-900/30"
                   >
-                    <Link href="/connect" className="flex items-center gap-2">
-                      Start Judging <ArrowRight className="w-4 h-4" />
+                    <Link href={isLoggedIn ? "/judge" : "/connect"} className="flex items-center gap-2">
+                      Start Judging <ArrowRight className="h-4 w-4" />
                     </Link>
                   </Button>
                 </motion.div>
@@ -155,7 +152,7 @@ export default function Home() {
                     asChild
                     variant="outline"
                     size="lg"
-                    className="border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900"
+                    className="border-purple-200 hover:bg-purple-100 dark:border-purple-800 dark:hover:bg-purple-900"
                   >
                     <Link href="/about">Learn More</Link>
                   </Button>
@@ -169,10 +166,10 @@ export default function Home() {
                 className="flex items-center gap-6 pt-4"
               >
                 <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
+                  {[1, 2, 3, 4].map(i => (
                     <div
                       key={i}
-                      className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs font-bold"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-gradient-to-br from-purple-400 to-pink-400 text-xs font-bold text-white dark:border-gray-800"
                     >
                       {String.fromCharCode(64 + i)}
                     </div>
@@ -190,25 +187,25 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.4 }}
               className="relative"
             >
-              <div className="relative mx-auto w-full max-w-md aspect-[4/3]">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl transform rotate-3 scale-[0.97]"></div>
+              <div className="relative mx-auto aspect-[4/3] w-full max-w-md">
+                <div className="absolute inset-0 rotate-3 scale-[0.97] transform rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30"></div>
 
-                <div className="absolute inset-0 bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
-                  <div className="h-24 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                    <Gavel className="w-12 h-12 text-white/80" />
+                <div className="absolute inset-0 overflow-hidden rounded-2xl bg-white shadow-xl dark:bg-gray-800">
+                  <div className="flex h-24 items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500">
+                    <Gavel className="h-12 w-12 text-white/80" />
                   </div>
 
-                  <div className="p-6 flex flex-col items-center">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 -mt-16 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xl font-bold">
+                  <div className="flex flex-col items-center p-6">
+                    <div className="-mt-16 flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-gradient-to-br from-purple-400 to-pink-400 text-xl font-bold text-white dark:border-gray-800">
                       JD
                     </div>
 
                     <div className="mt-4 text-center">
-                      <h3 className="font-bold text-lg">John.lens</h3>
+                      <h3 className="text-lg font-bold">John.lens</h3>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Web3 Developer & NFT Collector</p>
                     </div>
 
-                    <div className="mt-6 w-full flex justify-between">
+                    <div className="mt-6 flex w-full justify-between">
                       <div className="text-center">
                         <p className="font-bold">127</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">Posts</p>
@@ -227,7 +224,7 @@ export default function Home() {
                       <motion.div
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="w-14 h-14 rounded-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 flex items-center justify-center cursor-pointer"
+                        className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20"
                       >
                         <motion.div
                           animate={{ rotate: [0, -15, 0, 15, 0] }}
@@ -252,7 +249,7 @@ export default function Home() {
                       <motion.div
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="w-14 h-14 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 flex items-center justify-center cursor-pointer"
+                        className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/20"
                       >
                         <motion.div
                           animate={{ rotate: [0, 15, 0, -15, 0] }}
@@ -284,10 +281,10 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 1 }}
-                  className="absolute -bottom-6 -right-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 flex items-center gap-2"
+                  className="absolute -bottom-6 -right-6 flex items-center gap-2 rounded-lg bg-white p-3 shadow-lg dark:bg-gray-800"
                 >
-                  <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/50">
+                    <CheckCircle className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
                     <p className="text-xs font-medium">Reputation Score</p>
@@ -299,9 +296,9 @@ export default function Home() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 1.2 }}
-                  className="absolute -left-6 top-1/3 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2 flex items-center gap-2"
+                  className="absolute -left-6 top-1/3 flex items-center gap-2 rounded-lg bg-white p-2 shadow-lg dark:bg-gray-800"
                 >
-                  <Star className="w-4 h-4 text-yellow-500" />
+                  <Star className="h-4 w-4 text-yellow-500" />
                   <p className="text-xs font-medium">Top Judge</p>
                 </motion.div>
               </div>
@@ -310,36 +307,36 @@ export default function Home() {
         </div>
 
         {/* Features Section */}
-        <div className="bg-white dark:bg-gray-800 py-20">
+        <div className="bg-white py-20 dark:bg-gray-800">
           <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="text-center max-w-2xl mx-auto mb-16"
+              className="mx-auto mb-16 max-w-2xl text-center"
             >
-              <h2 className="text-3xl font-bold mb-4">How LensCourt Works</h2>
+              <h2 className="mb-4 text-3xl font-bold">How LensCourt Works</h2>
               <p className="text-gray-600 dark:text-gray-300">
                 Our community-driven approach helps identify bots and maintain the integrity of the Lens network
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               {[
                 {
-                  icon: <Trophy className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
+                  icon: <Trophy className="h-6 w-6 text-purple-600 dark:text-purple-400" />,
                   title: "Reputation-Weighted",
                   description:
                     "Your LensReputation NFT score gives your votes more impact, rewarding trusted community members.",
                 },
                 {
-                  icon: <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
+                  icon: <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />,
                   title: "Community-Driven",
                   description:
                     "Collectively decide which profiles are authentic and which are bots through a democratic process.",
                 },
                 {
-                  icon: <Shield className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
+                  icon: <Shield className="h-6 w-6 text-purple-600 dark:text-purple-400" />,
                   title: "Transparent & Secure",
                   description: "All votes are stored on-chain for complete transparency and tamper-proof results.",
                 },
@@ -350,12 +347,12 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.1 * index }}
                   whileHover={{ y: -5 }}
-                  className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-gray-700 dark:to-gray-750 p-8 rounded-xl shadow-lg shadow-purple-100 dark:shadow-purple-900/10"
+                  className="dark:to-gray-750 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50 p-8 shadow-lg shadow-purple-100 dark:from-gray-700 dark:shadow-purple-900/10"
                 >
-                  <div className="bg-white dark:bg-gray-800 w-12 h-12 rounded-lg shadow-md flex items-center justify-center mb-6">
+                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-white shadow-md dark:bg-gray-800">
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                  <h3 className="mb-3 text-xl font-bold">{feature.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
                 </motion.div>
               ))}
@@ -364,26 +361,26 @@ export default function Home() {
         </div>
 
         {/* CTA Section */}
-        <div className="py-20 bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
+        <div className="bg-gradient-to-br from-purple-50 via-white to-indigo-50 py-20 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
           <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="max-w-3xl mx-auto text-center"
+              className="mx-auto max-w-3xl text-center"
             >
-              <h2 className="text-3xl font-bold mb-6">Ready to be a Judge?</h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+              <h2 className="mb-6 text-3xl font-bold">Ready to be a Judge?</h2>
+              <p className="mb-8 text-lg text-gray-600 dark:text-gray-300">
                 Join our community of judges and help make the Lens network a better place for everyone.
               </p>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 shadow-lg shadow-purple-200 dark:shadow-purple-900/30"
+                  className="border-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-200 hover:from-purple-700 hover:to-pink-700 dark:shadow-purple-900/30"
                 >
-                  <Link href="/connect" className="flex items-center gap-2">
-                    Start Judging Now <ArrowRight className="w-4 h-4" />
+                  <Link href={isLoggedIn ? "/judge" : "/connect"} className="flex items-center gap-2">
+                    Start Judging Now <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </motion.div>
@@ -392,22 +389,22 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
-        <div className="container flex flex-col sm:flex-row items-center justify-between py-8 space-y-4 sm:space-y-0">
+      <footer className="border-t border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+        <div className="container flex flex-col items-center justify-between space-y-4 py-8 sm:flex-row sm:space-y-0">
           <div className="flex items-center gap-2">
-            <Gavel className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+            <Gavel className="h-5 w-5 text-purple-600 dark:text-purple-400" />
             <p className="text-sm text-gray-500 dark:text-gray-400">© 2025 LensCourt. All rights reserved.</p>
           </div>
           <div className="flex items-center gap-6">
             <Link
               href="/terms"
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="text-sm text-gray-500 transition-colors hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
             >
               Terms
             </Link>
             <Link
               href="/privacy"
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="text-sm text-gray-500 transition-colors hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
             >
               Privacy
             </Link>
@@ -415,7 +412,7 @@ export default function Home() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="text-sm text-gray-500 transition-colors hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
             >
               GitHub
             </a>
@@ -423,5 +420,5 @@ export default function Home() {
         </div>
       </footer>
     </div>
-  )
+  );
 }

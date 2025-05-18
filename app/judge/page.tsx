@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Confetti from "@/components/confetti";
 import { LoginConnectButton } from "@/components/login-connect-button";
+import { useAuth } from "@/components/providers/auth-provider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -124,6 +125,7 @@ export default function JudgePage() {
   const { toast } = useToast();
   const router = useRouter();
   const isMobile = useMobile();
+  const { isLoggedIn } = useAuth();
 
   const currentProfile = mockProfiles[currentProfileIndex];
   const progress = (currentProfileIndex / mockProfiles.length) * 100;
@@ -132,6 +134,13 @@ export default function JudgePage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Redirect to connect page if user is not logged in
+  useEffect(() => {
+    if (mounted && !isLoggedIn) {
+      router.push("/connect");
+    }
+  }, [isLoggedIn, mounted, router]);
 
   useEffect(() => {
     if (currentProfileIndex >= 9) {
