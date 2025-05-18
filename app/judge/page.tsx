@@ -1,18 +1,19 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { ThumbsDown, ThumbsUp, Gavel, Award, ExternalLink, ArrowLeft } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
-import Confetti from "@/components/confetti"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { useRouter } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
-import Link from "next/link"
-import { useMobile } from "@/hooks/use-mobile"
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Confetti from "@/components/confetti";
+import { LoginConnectButton } from "@/components/login-connect-button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { useMobile } from "@/hooks/use-mobile";
+import { useToast } from "@/hooks/use-toast";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, Award, ExternalLink, Gavel, ThumbsDown, ThumbsUp } from "lucide-react";
 
 // Mock data for profiles
 const mockProfiles = [
@@ -106,46 +107,46 @@ const mockProfiles = [
     posts: 147,
     followers: 2560,
   },
-]
+];
 
 export default function JudgePage() {
-  const [currentProfileIndex, setCurrentProfileIndex] = useState(0)
-  const [showConfetti, setShowConfetti] = useState(false)
-  const [direction, setDirection] = useState("")
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragOffset, setDragOffset] = useState(0)
-  const [completed, setCompleted] = useState(false)
-  const [reputationScore, setReputationScore] = useState(75) // Mock reputation score
-  const [mounted, setMounted] = useState(false)
-  const [exitDirection, setExitDirection] = useState(null)
-  const [touchStart, setTouchStart] = useState(null)
-  const cardRef = useRef(null)
-  const { toast } = useToast()
-  const router = useRouter()
-  const isMobile = useMobile()
+  const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [direction, setDirection] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [completed, setCompleted] = useState(false);
+  const [reputationScore, setReputationScore] = useState(75); // Mock reputation score
+  const [mounted, setMounted] = useState(false);
+  const [exitDirection, setExitDirection] = useState(null);
+  const [touchStart, setTouchStart] = useState(null);
+  const cardRef = useRef(null);
+  const { toast } = useToast();
+  const router = useRouter();
+  const isMobile = useMobile();
 
-  const currentProfile = mockProfiles[currentProfileIndex]
-  const progress = (currentProfileIndex / mockProfiles.length) * 100
+  const currentProfile = mockProfiles[currentProfileIndex];
+  const progress = (currentProfileIndex / mockProfiles.length) * 100;
 
   // Ensure animations only run after component is mounted
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (currentProfileIndex >= mockProfiles.length) {
-      setCompleted(true)
+    if (currentProfileIndex >= 9) {
+      setCompleted(true);
     }
-  }, [currentProfileIndex])
+  }, [currentProfileIndex]);
 
-  const handleVote = (isUpvote) => {
+  const handleVote = isUpvote => {
     // Set exit direction for animation
-    setExitDirection(isUpvote ? "right" : "left")
+    setExitDirection(isUpvote ? "right" : "left");
 
     // Show confetti for upvotes
     if (isUpvote) {
-      setShowConfetti(true)
-      setTimeout(() => setShowConfetti(false), 2000)
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 2000);
     }
 
     // Show toast notification
@@ -153,104 +154,104 @@ export default function JudgePage() {
       title: isUpvote ? "Profile Approved! 👍" : "Profile Flagged! 👎",
       description: `You've ${isUpvote ? "approved" : "flagged"} ${currentProfile.handle}. Your vote has been weighted by your reputation score.`,
       variant: isUpvote ? "default" : "destructive",
-    })
+    });
 
     // Move to next profile after animation
     setTimeout(() => {
-      setCurrentProfileIndex((prev) => prev + 1)
-      setExitDirection(null)
-    }, 300)
-  }
+      setCurrentProfileIndex(prev => prev + 1);
+      setExitDirection(null);
+    }, 300);
+  };
 
-  const handleDragStart = (e) => {
-    setIsDragging(true)
-    setDragOffset(0)
+  const handleDragStart = e => {
+    setIsDragging(true);
+    setDragOffset(0);
     if (e.type === "touchstart") {
-      setTouchStart(e.touches[0].clientX)
+      setTouchStart(e.touches[0].clientX);
     }
-  }
+  };
 
-  const handleDragMove = (e) => {
-    if (!isDragging) return
+  const handleDragMove = e => {
+    if (!isDragging) return;
 
-    let clientX
+    let clientX;
     if (e.type === "touchmove") {
-      clientX = e.touches[0].clientX
+      clientX = e.touches[0].clientX;
     } else {
-      clientX = e.clientX
+      clientX = e.clientX;
     }
 
-    let newOffset
+    let newOffset;
     if (e.type === "touchmove" && touchStart !== null) {
-      newOffset = clientX - touchStart
+      newOffset = clientX - touchStart;
     } else {
-      newOffset = clientX - window.innerWidth / 2
+      newOffset = clientX - window.innerWidth / 2;
     }
 
-    setDragOffset(newOffset)
+    setDragOffset(newOffset);
 
     if (newOffset > 100) {
-      setDirection("right")
+      setDirection("right");
     } else if (newOffset < -100) {
-      setDirection("left")
+      setDirection("left");
     } else {
-      setDirection("")
+      setDirection("");
     }
-  }
+  };
 
   const handleDragEnd = () => {
     if (direction === "right") {
-      handleVote(true)
+      handleVote(true);
     } else if (direction === "left") {
-      handleVote(false)
+      handleVote(false);
     }
 
-    setIsDragging(false)
-    setDragOffset(0)
-    setDirection("")
-    setTouchStart(null)
-  }
+    setIsDragging(false);
+    setDragOffset(0);
+    setDirection("");
+    setTouchStart(null);
+  };
 
   const handleFinish = () => {
-    router.push("/")
+    router.push("/");
     toast({
       title: "Judging Complete! 🎉",
       description: "Thank you for helping clean up the Lens network. Your contributions are valuable!",
-    })
-  }
+    });
+  };
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
   if (completed) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
-        <div className="container relative flex items-center justify-center min-h-screen py-12 px-4">
+        <div className="container relative flex min-h-screen items-center justify-center px-4 py-12">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-[30%] -right-[10%] w-[500px] h-[500px] bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-3xl" />
-            <div className="absolute top-[20%] -left-[10%] w-[300px] h-[300px] bg-pink-200/30 dark:bg-pink-900/20 rounded-full blur-3xl" />
-            <div className="absolute -bottom-[10%] right-[20%] w-[400px] h-[400px] bg-indigo-200/30 dark:bg-indigo-900/20 rounded-full blur-3xl" />
+            <div className="absolute -right-[10%] -top-[30%] h-[500px] w-[500px] rounded-full bg-purple-200/30 blur-3xl dark:bg-purple-900/20" />
+            <div className="absolute -left-[10%] top-[20%] h-[300px] w-[300px] rounded-full bg-pink-200/30 blur-3xl dark:bg-pink-900/20" />
+            <div className="absolute -bottom-[10%] right-[20%] h-[400px] w-[400px] rounded-full bg-indigo-200/30 blur-3xl dark:bg-indigo-900/20" />
           </div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="w-full max-w-md z-10"
+            className="z-10 w-full max-w-md"
           >
-            <Card className="overflow-hidden border-0 shadow-xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-center p-8">
+            <Card className="overflow-hidden border-0 bg-white/90 p-8 text-center shadow-xl backdrop-blur-sm dark:bg-gray-800/90">
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="mx-auto bg-gradient-to-br from-purple-400 to-pink-400 p-4 rounded-full w-20 h-20 flex items-center justify-center mb-6 shadow-lg"
+                className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-400 to-pink-400 p-4 shadow-lg"
               >
-                <Award className="w-10 h-10 text-white" />
+                <Award className="h-10 w-10 text-white" />
               </motion.div>
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400"
+                className="mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-2xl font-bold text-transparent dark:from-purple-400 dark:to-pink-400"
               >
                 Judging Complete!
               </motion.h2>
@@ -258,7 +259,7 @@ export default function JudgePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="text-gray-600 dark:text-gray-300 mb-8"
+                className="mb-8 text-gray-600 dark:text-gray-300"
               >
                 You've successfully judged 10 profiles. Your contributions help make the Lens network a better place!
               </motion.p>
@@ -268,9 +269,9 @@ export default function JudgePage() {
                 transition={{ duration: 0.5, delay: 0.6 }}
                 className="space-y-6"
               >
-                <div className="p-4 bg-gradient-to-r from-purple-50 to-indigo-50/50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
-                  <h3 className="font-medium mb-2 flex items-center justify-center gap-2">
-                    <Award className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                <div className="rounded-lg border border-purple-100 bg-gradient-to-r from-purple-50 to-indigo-50/50 p-4 dark:border-purple-800 dark:from-purple-900/20 dark:to-indigo-900/20">
+                  <h3 className="mb-2 flex items-center justify-center gap-2 font-medium">
+                    <Award className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                     Your Impact:
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -281,7 +282,7 @@ export default function JudgePage() {
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <Button
                     onClick={handleFinish}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 shadow-lg shadow-purple-200 dark:shadow-purple-900/30 h-12 text-base"
+                    className="h-12 w-full border-0 bg-gradient-to-r from-purple-600 to-pink-600 text-base text-white shadow-lg shadow-purple-200 hover:from-purple-700 hover:to-pink-700 dark:shadow-purple-900/30"
                   >
                     Return Home
                   </Button>
@@ -291,30 +292,30 @@ export default function JudgePage() {
           </motion.div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
       {showConfetti && <Confetti />}
 
-      <div className="container relative min-h-screen flex flex-col py-4">
+      <div className="container relative flex min-h-screen flex-col py-4">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-[30%] -right-[10%] w-[500px] h-[500px] bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-3xl" />
-          <div className="absolute top-[20%] -left-[10%] w-[300px] h-[300px] bg-pink-200/30 dark:bg-pink-900/20 rounded-full blur-3xl" />
-          <div className="absolute -bottom-[10%] right-[20%] w-[400px] h-[400px] bg-indigo-200/30 dark:bg-indigo-900/20 rounded-full blur-3xl" />
+          <div className="absolute -right-[10%] -top-[30%] h-[500px] w-[500px] rounded-full bg-purple-200/30 blur-3xl dark:bg-purple-900/20" />
+          <div className="absolute -left-[10%] top-[20%] h-[300px] w-[300px] rounded-full bg-pink-200/30 blur-3xl dark:bg-pink-900/20" />
+          <div className="absolute -bottom-[10%] right-[20%] h-[400px] w-[400px] rounded-full bg-indigo-200/30 blur-3xl dark:bg-indigo-900/20" />
         </div>
 
         <header className="relative z-10 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Link href="/" className="flex items-center gap-2 group">
-                <div className="bg-white dark:bg-gray-800 rounded-full p-1.5 shadow-md group-hover:bg-purple-50 dark:group-hover:bg-gray-700 transition-colors">
-                  <ArrowLeft className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+              <Link href="/" className="group flex items-center gap-2">
+                <div className="rounded-full bg-white p-1.5 shadow-md transition-colors group-hover:bg-purple-50 dark:bg-gray-800 dark:group-hover:bg-gray-700">
+                  <ArrowLeft className="h-4 w-4 text-gray-600 dark:text-gray-300" />
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Gavel className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                  <h1 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">
+                  <Gavel className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                  <h1 className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-lg font-bold text-transparent dark:from-purple-400 dark:to-pink-400">
                     LensCourt
                   </h1>
                 </div>
@@ -328,6 +329,9 @@ export default function JudgePage() {
                 <Award className="w-3 h-3 text-purple-600 dark:text-purple-400" />
                 Rep Score: {reputationScore}
               </Badge>
+            </div>
+            <div className="flex items-center gap-2">
+               <LoginConnectButton />
             </div>
           </div>
 
@@ -346,7 +350,7 @@ export default function JudgePage() {
           </div>
         </header>
 
-        <main className="flex-1 relative z-10 flex items-center justify-center py-8">
+        <main className="relative z-10 flex flex-1 items-center justify-center py-8">
           <div
             className="relative w-full max-w-md"
             onMouseDown={handleDragStart}
@@ -381,22 +385,22 @@ export default function JudgePage() {
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className="w-full"
               >
-                <Card className="overflow-hidden border-0 shadow-xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm">
-                  <div className="relative h-24 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                    <Gavel className="w-8 h-8 text-white/80" />
+                <Card className="overflow-hidden border-0 bg-white/90 shadow-xl backdrop-blur-sm dark:bg-gray-800/90">
+                  <div className="relative flex h-24 items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500">
+                    <Gavel className="h-8 w-8 text-white/80" />
                   </div>
 
                   <CardContent className="p-6 pt-0">
-                    <div className="flex justify-center -mt-12">
-                      <Avatar className="w-24 h-24 border-4 border-white dark:border-gray-800 shadow-lg">
+                    <div className="-mt-12 flex justify-center">
+                      <Avatar className="h-24 w-24 border-4 border-white shadow-lg dark:border-gray-800">
                         <AvatarImage src={currentProfile.avatar || "/placeholder.svg"} alt={currentProfile.name} />
-                        <AvatarFallback className="bg-gradient-to-br from-purple-400 to-pink-400 text-white text-xl font-bold">
+                        <AvatarFallback className="bg-gradient-to-br from-purple-400 to-pink-400 text-xl font-bold text-white">
                           {currentProfile.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                     </div>
 
-                    <div className="text-center mt-4">
+                    <div className="mt-4 text-center">
                       <h2 className="text-2xl font-bold">{currentProfile.name}</h2>
                       <p className="text-sm text-gray-500 dark:text-gray-400">@{currentProfile.handle}</p>
                     </div>
@@ -421,7 +425,7 @@ export default function JudgePage() {
                         href={`https://hey.xyz/u/${currentProfile.handle}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-purple-600 hover:underline dark:text-purple-400"
                       >
                         <ExternalLink className="h-3 w-3" />
                         View on Hey.xyz
@@ -430,7 +434,7 @@ export default function JudgePage() {
                         href={`https://polygonscan.com/address/0x${currentProfile.id.toString(16)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-purple-600 hover:underline dark:text-purple-400"
                       >
                         <ExternalLink className="h-3 w-3" />
                         View Transactions
@@ -442,7 +446,7 @@ export default function JudgePage() {
                         <Button
                           variant="outline"
                           size="lg"
-                          className="rounded-full h-16 w-16 bg-red-50 hover:bg-red-100 border-red-200 text-red-500 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/30 shadow-md"
+                          className="h-16 w-16 rounded-full border-red-200 bg-red-50 text-red-500 shadow-md hover:bg-red-100 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
                           onClick={() => handleVote(false)}
                         >
                           <ThumbsDown className="h-8 w-8" />
@@ -453,7 +457,7 @@ export default function JudgePage() {
                         <Button
                           variant="outline"
                           size="lg"
-                          className="rounded-full h-16 w-16 bg-green-50 hover:bg-green-100 border-green-200 text-green-500 dark:bg-green-900/20 dark:border-green-800 dark:text-green-400 dark:hover:bg-green-900/30 shadow-md"
+                          className="h-16 w-16 rounded-full border-green-200 bg-green-50 text-green-500 shadow-md hover:bg-green-100 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
                           onClick={() => handleVote(true)}
                         >
                           <ThumbsUp className="h-8 w-8" />
@@ -478,7 +482,7 @@ export default function JudgePage() {
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-red-500 text-white p-2 rounded-full shadow-lg z-20"
+                className="absolute left-4 top-1/2 z-20 -translate-y-1/2 transform rounded-full bg-red-500 p-2 text-white shadow-lg"
               >
                 <ThumbsDown className="h-6 w-6" />
               </motion.div>
@@ -488,7 +492,7 @@ export default function JudgePage() {
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-green-500 text-white p-2 rounded-full shadow-lg z-20"
+                className="absolute right-4 top-1/2 z-20 -translate-y-1/2 transform rounded-full bg-green-500 p-2 text-white shadow-lg"
               >
                 <ThumbsUp className="h-6 w-6" />
               </motion.div>
@@ -496,12 +500,12 @@ export default function JudgePage() {
           </div>
         </main>
 
-        <footer className="relative z-10 container py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+        <footer className="container relative z-10 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
           <p>
             Your reputation score: {reputationScore} • Vote weight: {(reputationScore / 100).toFixed(2)}x
           </p>
         </footer>
       </div>
     </div>
-  )
+  );
 }
