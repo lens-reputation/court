@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Web3Provider } from "@/components/providers/web3-provider";
+import { AuthProvider } from "@/components/providers/auth-provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "LensCourt",
@@ -17,6 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <ThemeProvider attribute="class" forcedTheme="light" disableTransitionOnChange>
+          <Web3Provider>
+            <AuthProvider>
+              {children}
+              <Toaster position="bottom-right" closeButton />
+            </AuthProvider>
+          </Web3Provider>
+        </ThemeProvider>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="fixed bottom-4 right-4 z-50">
             <ThemeToggle />
