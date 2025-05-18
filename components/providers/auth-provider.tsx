@@ -132,6 +132,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Logout from wallet and Lens
   const logout = useCallback(() => {
+    // Set loading state to true at the beginning of the logout process
+    setIsLoading(true);
     if (walletStatus === "connected") {
       disconnect();
     }

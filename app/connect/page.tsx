@@ -31,8 +31,8 @@ export default function ConnectPage() {
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
-      <div className="container relative px-4 py-12">
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
+      <div className="container relative h-full px-4">
         <div className="absolute left-6 top-6 z-20">
           <Link href="/" className="group flex items-center gap-2">
             <div className="rounded-full bg-white p-1.5 shadow-md transition-colors group-hover:bg-purple-50 dark:bg-gray-800 dark:group-hover:bg-gray-700">
@@ -46,7 +46,7 @@ export default function ConnectPage() {
             </div>
           </Link>
         </div>
-        <div className="flex min-h-screen items-center justify-center">
+        <div className="flex h-full items-center justify-center">
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -right-[10%] -top-[30%] h-[500px] w-[500px] rounded-full bg-purple-200/30 blur-3xl dark:bg-purple-900/20" />
             <div className="absolute -left-[10%] top-[20%] h-[300px] w-[300px] rounded-full bg-pink-200/30 blur-3xl dark:bg-pink-900/20" />
@@ -58,14 +58,15 @@ export default function ConnectPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="z-10 w-full max-w-md"
+            style={{ maxHeight: "90vh" }}
           >
-            <Card className="overflow-hidden border-0 bg-white/90 shadow-xl backdrop-blur-sm dark:bg-gray-800/90">
-              <CardHeader className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 text-center dark:from-purple-500/20 dark:to-pink-500/20">
+            <Card className="max-h-full overflow-auto border-0 bg-white/90 shadow-xl backdrop-blur-sm dark:bg-gray-800/90">
+              <CardHeader className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 pb-4 pt-4 text-center dark:from-purple-500/20 dark:to-pink-500/20">
                 <motion.div
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-400 to-pink-400 p-3 shadow-lg"
+                  className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-purple-400 to-pink-400 p-3 shadow-lg"
                 >
                   <Gavel className="h-8 w-8 text-white" />
                 </motion.div>
@@ -82,18 +83,17 @@ export default function ConnectPage() {
                   </CardDescription>
                 </motion.div>
               </CardHeader>
-              <CardContent className="space-y-6 pt-6">
+              <CardContent className="space-y-4 pt-6">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  className="rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-amber-100/50 p-4 dark:border-amber-800 dark:from-amber-900/20 dark:to-amber-800/20"
+                  className="rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-amber-100/50 p-3 dark:border-amber-800 dark:from-amber-900/20 dark:to-amber-800/20"
                 >
                   <div className="flex gap-3">
                     <Shield className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600 dark:text-amber-400" />
                     <p className="text-sm text-amber-800 dark:text-amber-300">
-                      You need to have minted the LensReputation NFT to participate as a judge. Your reputation score
-                      will determine the weight of your votes.
+                      You need to have minted the LensReputation NFT to participate as a judge.
                     </p>
                   </div>
                 </motion.div>
@@ -102,18 +102,18 @@ export default function ConnectPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  className="dark:to-gray-750 rounded-lg border bg-gradient-to-r from-purple-50 to-indigo-50/50 p-4 dark:from-gray-800"
+                  className="dark:to-gray-750 rounded-lg border bg-gradient-to-r from-purple-50 to-indigo-50/50 p-3 dark:from-gray-800"
                 >
-                  <h3 className="mb-3 flex items-center gap-2 font-medium">
+                  <h3 className="mb-2 flex items-center gap-2 font-medium">
                     <Award className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                     What happens after connecting:
                   </h3>
-                  <ul className="space-y-3 text-sm">
+                  <ul className="space-y-2 text-sm">
                     {[
-                      "You'll be shown 10 random Lens profiles",
-                      "Vote thumbs up (authentic) or down (bot/untrustworthy)",
-                      "Your votes are weighted by your reputation score",
-                      "All votes are stored on-chain for transparency",
+                      "You'll be shown random Lens profiles",
+                      "Vote thumbs up or down on profiles",
+                      "Your votes are weighted by your reputation",
+                      "All votes are stored on-chain",
                     ].map((step, index) => (
                       <motion.li
                         key={index}
@@ -131,7 +131,7 @@ export default function ConnectPage() {
                   </ul>
                 </motion.div>
               </CardContent>
-              <CardFooter className="flex flex-col pb-6 pt-2">
+              <CardFooter className="flex flex-col pb-4 pt-2">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

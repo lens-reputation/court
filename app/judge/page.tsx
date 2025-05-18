@@ -234,8 +234,8 @@ export default function JudgePage() {
 
   if (completed) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
-        <div className="container relative flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
+        <div className="container relative flex h-full items-center justify-center px-4">
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -right-[10%] -top-[30%] h-[500px] w-[500px] rounded-full bg-purple-200/30 blur-3xl dark:bg-purple-900/20" />
             <div className="absolute -left-[10%] top-[20%] h-[300px] w-[300px] rounded-full bg-pink-200/30 blur-3xl dark:bg-pink-900/20" />
@@ -248,20 +248,20 @@ export default function JudgePage() {
             transition={{ duration: 0.7 }}
             className="z-10 w-full max-w-md"
           >
-            <Card className="overflow-hidden border-0 bg-white/90 p-8 text-center shadow-xl backdrop-blur-sm dark:bg-gray-800/90">
+            <Card className="overflow-hidden border-0 bg-white/90 p-5 text-center shadow-xl backdrop-blur-sm dark:bg-gray-800/90">
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-400 to-pink-400 p-4 shadow-lg"
+                className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-400 to-pink-400 p-4 shadow-lg"
               >
-                <Award className="h-10 w-10 text-white" />
+                <Award className="h-8 w-8 text-white" />
               </motion.div>
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-2xl font-bold text-transparent dark:from-purple-400 dark:to-pink-400"
+                className="mb-3 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-xl font-bold text-transparent dark:from-purple-400 dark:to-pink-400"
               >
                 Judging Complete!
               </motion.h2>
@@ -269,7 +269,7 @@ export default function JudgePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="mb-8 text-gray-600 dark:text-gray-300"
+                className="mb-5 text-sm text-gray-600 dark:text-gray-300"
               >
                 You've successfully judged 10 profiles. Your contributions help make the Lens network a better place!
               </motion.p>
@@ -277,22 +277,22 @@ export default function JudgePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
-                className="space-y-6"
+                className="space-y-4"
               >
-                <div className="rounded-lg border border-purple-100 bg-gradient-to-r from-purple-50 to-indigo-50/50 p-4 dark:border-purple-800 dark:from-purple-900/20 dark:to-indigo-900/20">
-                  <h3 className="mb-2 flex items-center justify-center gap-2 font-medium">
+                <div className="rounded-lg border border-purple-100 bg-gradient-to-r from-purple-50 to-indigo-50/50 p-3 dark:border-purple-800 dark:from-purple-900/20 dark:to-indigo-900/20">
+                  <h3 className="mb-1 flex items-center justify-center gap-2 text-sm font-medium">
                     <Award className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                     Your Impact:
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                  <p className="text-xs text-gray-600 dark:text-gray-300">
                     With your reputation score of {reputationScore}, your votes have a significant impact on the
-                    network's trust system.
+                    network.
                   </p>
                 </div>
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <Button
                     onClick={handleFinish}
-                    className="h-12 w-full border-0 bg-gradient-to-r from-purple-600 to-pink-600 text-base text-white shadow-lg shadow-purple-200 hover:from-purple-700 hover:to-pink-700 dark:shadow-purple-900/30"
+                    className="h-10 w-full border-0 bg-gradient-to-r from-purple-600 to-pink-600 text-sm text-white shadow-lg shadow-purple-200 hover:from-purple-700 hover:to-pink-700 dark:shadow-purple-900/30"
                   >
                     Return Home
                   </Button>
@@ -306,17 +306,17 @@ export default function JudgePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
       {showConfetti && <Confetti />}
 
-      <div className="container relative flex min-h-screen flex-col py-4">
+      <div className="container relative flex h-full flex-col">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -right-[10%] -top-[30%] h-[500px] w-[500px] rounded-full bg-purple-200/30 blur-3xl dark:bg-purple-900/20" />
           <div className="absolute -left-[10%] top-[20%] h-[300px] w-[300px] rounded-full bg-pink-200/30 blur-3xl dark:bg-pink-900/20" />
           <div className="absolute -bottom-[10%] right-[20%] h-[400px] w-[400px] rounded-full bg-indigo-200/30 blur-3xl dark:bg-indigo-900/20" />
         </div>
 
-        <header className="relative z-10 py-4">
+        <header className="relative z-10 pb-2 pt-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Link href="/" className="group flex items-center gap-2">
@@ -360,7 +360,7 @@ export default function JudgePage() {
           </div>
         </header>
 
-        <main className="relative z-10 flex flex-1 items-center justify-center py-8">
+        <main className="relative z-10 flex flex-1 items-center justify-center py-2">
           <div
             className="relative w-full max-w-md"
             onMouseDown={handleDragStart}
@@ -396,13 +396,13 @@ export default function JudgePage() {
                 className="w-full"
               >
                 <Card className="overflow-hidden border-0 bg-white/90 shadow-xl backdrop-blur-sm dark:bg-gray-800/90">
-                  <div className="relative flex h-24 items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500">
+                  <div className="relative flex h-20 items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500">
                     <Gavel className="h-8 w-8 text-white/80" />
                   </div>
 
-                  <CardContent className="p-6 pt-0">
-                    <div className="-mt-12 flex justify-center">
-                      <Avatar className="h-24 w-24 border-4 border-white shadow-lg dark:border-gray-800">
+                  <CardContent className="p-4 pt-0">
+                    <div className="-mt-10 flex justify-center">
+                      <Avatar className="h-20 w-20 border-4 border-white shadow-lg dark:border-gray-800">
                         <AvatarImage src={currentProfile.avatar || "/placeholder.svg"} alt={currentProfile.name} />
                         <AvatarFallback className="bg-gradient-to-br from-purple-400 to-pink-400 text-xl font-bold text-white">
                           {currentProfile.name.charAt(0)}
@@ -410,32 +410,32 @@ export default function JudgePage() {
                       </Avatar>
                     </div>
 
-                    <div className="mt-4 text-center">
-                      <h2 className="text-2xl font-bold">{currentProfile.name}</h2>
+                    <div className="mt-3 text-center">
+                      <h2 className="text-xl font-bold">{currentProfile.name}</h2>
                       <p className="text-sm text-gray-500 dark:text-gray-400">@{currentProfile.handle}</p>
                     </div>
 
-                    <div className="mt-6 space-y-4">
-                      <p className="text-center text-gray-600 dark:text-gray-300">{currentProfile.bio}</p>
+                    <div className="mt-3 space-y-3">
+                      <p className="text-center text-sm text-gray-600 dark:text-gray-300">{currentProfile.bio}</p>
 
                       <div className="flex justify-center gap-8 text-center">
                         <div>
                           <p className="font-bold">{currentProfile.posts}</p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">Posts</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">Posts</p>
                         </div>
                         <div>
                           <p className="font-bold">{currentProfile.followers}</p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">Followers</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">Followers</p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-4 flex justify-center gap-4">
+                    <div className="mt-3 flex justify-center gap-4">
                       <a
                         href={`https://hey.xyz/u/${currentProfile.handle}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-purple-600 hover:underline dark:text-purple-400"
+                        className="inline-flex items-center gap-1 text-xs font-medium text-purple-600 hover:underline dark:text-purple-400"
                       >
                         <ExternalLink className="h-3 w-3" />
                         View on Hey.xyz
@@ -444,22 +444,22 @@ export default function JudgePage() {
                         href={`https://polygonscan.com/address/0x${currentProfile.id.toString(16)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-purple-600 hover:underline dark:text-purple-400"
+                        className="inline-flex items-center gap-1 text-xs font-medium text-purple-600 hover:underline dark:text-purple-400"
                       >
                         <ExternalLink className="h-3 w-3" />
                         View Transactions
                       </a>
                     </div>
 
-                    <div className="mt-8 flex justify-center gap-4">
+                    <div className="mt-5 flex justify-center gap-4">
                       <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                         <Button
                           variant="outline"
                           size="lg"
-                          className="h-16 w-16 rounded-full border-red-200 bg-red-50 text-red-500 shadow-md hover:bg-red-100 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
+                          className="h-14 w-14 rounded-full border-red-200 bg-red-50 text-red-500 shadow-md hover:bg-red-100 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
                           onClick={() => handleVote(false)}
                         >
-                          <ThumbsDown className="h-8 w-8" />
+                          <ThumbsDown className="h-7 w-7" />
                           <span className="sr-only">Flag as Bot</span>
                         </Button>
                       </motion.div>
@@ -467,21 +467,17 @@ export default function JudgePage() {
                         <Button
                           variant="outline"
                           size="lg"
-                          className="h-16 w-16 rounded-full border-green-200 bg-green-50 text-green-500 shadow-md hover:bg-green-100 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
+                          className="h-14 w-14 rounded-full border-green-200 bg-green-50 text-green-500 shadow-md hover:bg-green-100 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
                           onClick={() => handleVote(true)}
                         >
-                          <ThumbsUp className="h-8 w-8" />
+                          <ThumbsUp className="h-7 w-7" />
                           <span className="sr-only">Approve Profile</span>
                         </Button>
                       </motion.div>
                     </div>
 
-                    <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                      <p>
-                        {isMobile
-                          ? "Swipe left to flag as bot, right to approve"
-                          : "Drag left to flag as bot, right to approve"}
-                      </p>
+                    <div className="mt-3 text-center text-xs text-gray-500 dark:text-gray-400">
+                      <p>{isMobile ? "Swipe left to flag, right to approve" : "Drag left to flag, right to approve"}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -494,7 +490,7 @@ export default function JudgePage() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="absolute left-4 top-1/2 z-20 -translate-y-1/2 transform rounded-full bg-red-500 p-2 text-white shadow-lg"
               >
-                <ThumbsDown className="h-6 w-6" />
+                <ThumbsDown className="h-5 w-5" />
               </motion.div>
             )}
 
@@ -504,13 +500,13 @@ export default function JudgePage() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="absolute right-4 top-1/2 z-20 -translate-y-1/2 transform rounded-full bg-green-500 p-2 text-white shadow-lg"
               >
-                <ThumbsUp className="h-6 w-6" />
+                <ThumbsUp className="h-5 w-5" />
               </motion.div>
             )}
           </div>
         </main>
 
-        <footer className="container relative z-10 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+        <footer className="container relative z-10 py-2 text-center text-xs text-gray-500 dark:text-gray-400">
           <p>
             Your reputation score: {reputationScore} • Vote weight: {(reputationScore / 100).toFixed(2)}x
           </p>
