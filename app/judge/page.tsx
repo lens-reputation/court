@@ -112,14 +112,14 @@ const mockProfiles = [
 export default function JudgePage() {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [direction, setDirection] = useState("");
+  const [direction, setDirection] = useState<"" | "left" | "right">("");
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [reputationScore, setReputationScore] = useState(75); // Mock reputation score
   const [mounted, setMounted] = useState(false);
-  const [exitDirection, setExitDirection] = useState(null);
-  const [touchStart, setTouchStart] = useState(null);
+  const [exitDirection, setExitDirection] = useState<"left" | "right" | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
   const cardRef = useRef(null);
   const { toast } = useToast();
   const router = useRouter();
@@ -139,7 +139,7 @@ export default function JudgePage() {
     }
   }, [currentProfileIndex]);
 
-  const handleVote = isUpvote => {
+  const handleVote = (isUpvote: boolean) => {
     // Set exit direction for animation
     setExitDirection(isUpvote ? "right" : "left");
 
@@ -157,31 +157,32 @@ export default function JudgePage() {
     });
 
     // Move to next profile after animation
+    // Using a longer timeout to ensure the exit animation completes fully
     setTimeout(() => {
       setCurrentProfileIndex(prev => prev + 1);
       setExitDirection(null);
-    }, 300);
+    }, 500);
   };
 
-  const handleDragStart = e => {
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     setIsDragging(true);
     setDragOffset(0);
     if (e.type === "touchstart") {
-      setTouchStart(e.touches[0].clientX);
+      setTouchStart((e as React.TouchEvent).touches[0].clientX);
     }
   };
 
-  const handleDragMove = e => {
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging) return;
 
-    let clientX;
+    let clientX: number;
     if (e.type === "touchmove") {
-      clientX = e.touches[0].clientX;
+      clientX = (e as React.TouchEvent).touches[0].clientX;
     } else {
-      clientX = e.clientX;
+      clientX = (e as React.MouseEvent).clientX;
     }
 
-    let newOffset;
+    let newOffset: number;
     if (e.type === "touchmove" && touchStart !== null) {
       newOffset = clientX - touchStart;
     } else {
@@ -324,14 +325,14 @@ export default function JudgePage() {
             <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="flex items-center gap-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200 dark:border-purple-800"
+                className="flex items-center gap-1 border-purple-200 bg-white/80 backdrop-blur-sm dark:border-purple-800 dark:bg-gray-800/80"
               >
-                <Award className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                <Award className="h-3 w-3 text-purple-600 dark:text-purple-400" />
                 Rep Score: {reputationScore}
               </Badge>
             </div>
             <div className="flex items-center gap-2">
-               <LoginConnectButton />
+              <LoginConnectButton />
             </div>
           </div>
 
@@ -362,7 +363,7 @@ export default function JudgePage() {
             onTouchEnd={handleDragEnd}
             style={{ cursor: isDragging ? "grabbing" : "grab" }}
           >
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
               <motion.div
                 key={currentProfileIndex}
                 ref={cardRef}
@@ -382,7 +383,7 @@ export default function JudgePage() {
                       }
                     : { opacity: 0, scale: 0.8 }
                 }
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20, duration: 0.4 }}
                 className="w-full"
               >
                 <Card className="overflow-hidden border-0 bg-white/90 shadow-xl backdrop-blur-sm dark:bg-gray-800/90">
