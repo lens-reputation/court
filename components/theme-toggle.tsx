@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { Toggle } from "@/components/ui/toggle";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
-import { Toggle } from "@/components/ui/toggle";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -22,11 +21,7 @@ export function ThemeToggle() {
         onPressedChange={toggleTheme}
         aria-label="Toggle theme"
       >
-        {theme === "dark" ? (
-          <Moon className="h-4 w-4" />
-        ) : (
-          <Sun className="h-4 w-4" />
-        )}
+        {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
       </Toggle>
     </div>
   );

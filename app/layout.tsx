@@ -3,12 +3,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/components/providers/app-prodiver";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { LoginModalProvider } from "@/components/providers/login-modal-provider";
 import { Web3Provider } from "@/components/providers/web3-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
-import { LoginModalProvider } from "@/components/providers/login-modal-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,10 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <ThemeProvider attribute="class" forcedTheme="light" disableTransitionOnChange>
+        <ThemeProvider attribute="class" disableTransitionOnChange>
           <Web3Provider>
             <AuthProvider>
               <LoginModalProvider>
+                <div className="fixed bottom-4 right-4 z-50">
+                  <ThemeToggle />
+                </div>
                 <AppProvider>{children}</AppProvider>
               </LoginModalProvider>
             </AuthProvider>
