@@ -1,7 +1,7 @@
 "use client";
 
 import { lensMainnet } from "@/lib/chains/lens-mainnet";
-import { client } from "@/lib/lens/client";
+import { client } from "@/lib/clients/lens-protocol-mainnet";
 import { LensProvider } from "@lens-protocol/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";

@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { client } from "@/lib/lens/client";
+import { client } from "@/lib/clients/lens-protocol-mainnet";
 import { fetchAccount } from "@lens-protocol/client/actions";
 import { signMessageWith } from "@lens-protocol/client/viem";
 import {
