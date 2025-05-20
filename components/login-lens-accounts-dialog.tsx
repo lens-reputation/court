@@ -5,7 +5,7 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { client } from "@/lib/lens/client";
+import { client } from "@/lib/clients/lens-protocol-mainnet";
 import { Address } from "@/types/common";
 import { fetchAccountsAvailable } from "@lens-protocol/client/actions";
 import { AccountAvailable, evmAddress } from "@lens-protocol/react";
