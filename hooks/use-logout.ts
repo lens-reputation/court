@@ -1,10 +1,12 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useAuthStore } from "@/stores/auth-store";
 import { useLogout as useLensLogout } from "@lens-protocol/react";
 import { useDisconnect } from "wagmi";
 
 export function useLogout() {
-  const { setAccount, setIsLoggedIn, setIsLoading, setLensSession, account } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { setAccount, setLensSession, account } = useAuthStore();
 
   const { disconnect } = useDisconnect();
   const { execute: logoutLens } = useLensLogout();
@@ -22,7 +24,6 @@ export function useLogout() {
 
       // Reset auth state
       setAccount(null);
-      setIsLoggedIn(false);
       setLensSession(null);
     } catch (error) {
       console.error("Error during logout process:", error);
@@ -30,10 +31,10 @@ export function useLogout() {
     } finally {
       setIsLoading(false);
     }
-  }, [account, disconnect, logoutLens, setAccount, setIsLoggedIn, setIsLoading, setLensSession]);
+  }, [account, disconnect, logoutLens, setAccount, setIsLoading, setLensSession]);
 
   return {
     logout,
-    isLoading: useAuthStore(state => state.isLoading),
+    isLoading,
   };
 }

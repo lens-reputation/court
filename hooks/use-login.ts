@@ -66,6 +66,6 @@ export function useLogin() {
 
   return {
     login,
-    isLoading: useAuthStore(state => state.isLoading),
+    isLoading,
   };
 }

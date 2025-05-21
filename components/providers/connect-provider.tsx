@@ -17,7 +17,6 @@ export function ConnectProvider({ children }: { children: React.ReactNode }) {
     // When wallet connects, open the login modal to select Lens account
     setIsLoginLensDialogOpen(true);
     setWalletAddress(walletAddress);
-    console.log("Wallet connected:", walletAddress);
   };
 
   const handleClose = () => {
