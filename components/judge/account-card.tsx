@@ -64,6 +64,10 @@ export function AccountCard({ account, onVote, dragOffset, isMobile, exitDirecti
                 <p className="text-xs text-gray-500 dark:text-gray-400">Posts</p>
               </div>
               <div>
+                <p className="font-bold">{account.following}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Following</p>
+              </div>
+              <div>
                 <p className="font-bold">{account.followers}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Followers</p>
               </div>
