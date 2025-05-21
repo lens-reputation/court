@@ -104,16 +104,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = useCallback(() => {
     // Set loading state to true at the beginning of the logout process
     setIsLoading(true);
-    if (walletStatus === "connected") {
-      disconnect();
+    try {
+      if (walletStatus === "connected") {
+        disconnect();
+      }
+      if (account) {
+        logoutLens();
+        setAccount(null);
+      }
+      setIsLoggedIn(false);
+      setIsAnonymous(false);
+    } catch (error) {
+      console.error("Error during logout process:", error);
+    } finally {
+      setIsLoading(false);
     }
-    if (account) {
-      logoutLens();
-      setAccount(null);
-    }
-    setIsLoggedIn(false);
-    setIsAnonymous(false);
-    setIsLoading(false);
   }, [walletStatus, account, logoutLens, disconnect]);
 
   // Effect for managing authentication state and loading status
