@@ -2,19 +2,22 @@
 
 import { useState } from "react";
 import { LoginLensAccountsDialog } from "@/components/login-lens-accounts-dialog";
+import { useAuthStore } from "@/stores/auth-store";
 import { ConnectKitProvider } from "connectkit";
 
 // Provider component that wraps the application
 export function ConnectProvider({ children }: { children: React.ReactNode }) {
   const [isLoginLensDialogOpen, setIsLoginLensDialogOpen] = useState(false);
 
-  const handleDisconnect = async () => {
+  const { setWalletAddress } = useAuthStore();
 
-  };
+  const handleDisconnect = async () => {};
 
-  const handleConnect = async () => {
+  const handleConnect = async (walletAddress: string) => {
     // When wallet connects, open the login modal to select Lens account
     setIsLoginLensDialogOpen(true);
+    setWalletAddress(walletAddress);
+    console.log("Wallet connected:", walletAddress);
   };
 
   const handleClose = () => {
@@ -22,7 +25,7 @@ export function ConnectProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ConnectKitProvider onConnect={handleConnect} onDisconnect={handleDisconnect}>
+    <ConnectKitProvider onConnect={({ address }) => handleConnect(address ?? "")} onDisconnect={handleDisconnect}>
       <LoginLensAccountsDialog isOpen={isLoginLensDialogOpen} onClose={handleClose} />
       {children}
     </ConnectKitProvider>

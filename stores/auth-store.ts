@@ -13,10 +13,7 @@ interface AuthState {
   // Actions
   setAccount: (account: Account | null) => void;
   setWalletAddress: (address: string | null) => void;
-  setIsWalletConnected: (connected: boolean) => void;
   setLensSession: (session: AuthenticatedUser | null) => void;
-  setIsLoggedIn: (loggedIn: boolean) => void;
-  setIsLoading: (loading: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -30,12 +27,21 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
 
       // Actions
-      setAccount: account => set({ account }),
-      setWalletAddress: address => set({ walletAddress: address }),
-      setIsWalletConnected: connected => set({ isWalletConnected: connected }),
-      setLensSession: session => set({ lensSession: session }),
-      setIsLoggedIn: loggedIn => set({ isLoggedIn: loggedIn }),
-      setIsLoading: loading => set({ isLoading: loading }),
+      setAccount: account =>
+        set({
+          account,
+          isLoggedIn: account !== null,
+        }),
+      setWalletAddress: address =>
+        set({
+          walletAddress: address,
+          isWalletConnected: address !== null && address !== undefined && address !== "",
+        }),
+      setLensSession: session =>
+        set({
+          lensSession: session,
+          isLoggedIn: session !== null,
+        }),
     }),
     {
       name: "lens-judge-auth",
