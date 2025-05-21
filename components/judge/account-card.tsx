@@ -72,7 +72,7 @@ export function AccountCard({ account, onVote, dragOffset, isMobile, exitDirecti
 
           <div className="mt-3 flex justify-center gap-4">
             <a
-              href={`https://hey.xyz/u/${account.handle}`}
+              href={`https://hey.xyz/u/${account.handle.replace("lens/", "")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs font-medium text-purple-600 hover:underline dark:text-purple-400"
@@ -80,15 +80,15 @@ export function AccountCard({ account, onVote, dragOffset, isMobile, exitDirecti
               <ExternalLink className="h-3 w-3" />
               View on Hey.xyz
             </a>
-            <a
-              href={`https://polygonscan.com/address/0x${account.id.toString(16)}`}
+            {/* <a
+              href={`https://polygonscan.com/address/0x${account.address}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs font-medium text-purple-600 hover:underline dark:text-purple-400"
             >
               <ExternalLink className="h-3 w-3" />
               View Transactions
-            </a>
+            </a> */}
           </div>
 
           <div className="mt-5 flex justify-center gap-4">

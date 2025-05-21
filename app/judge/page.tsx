@@ -15,7 +15,8 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { useDragGesture } from "@/hooks/use-drag-gesture";
 import { useLensReputation } from "@/hooks/use-lens-reputation";
 import { useMobile } from "@/hooks/use-mobile";
-import { mockAccounts } from "@/services/mock-data";
+import { fetchAccounts } from "@/lib/lens/accounts";
+import { Account } from "@/types/account";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
@@ -27,6 +28,8 @@ export default function JudgePage() {
   const [reputationScore, setReputationScore] = useState(75); // Mock reputation score
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [exitDirection, setExitDirection] = useState<"left" | "right" | null>(null);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [isLoadingAccounts, setIsLoadingAccounts] = useState(true);
 
   // Hooks
   const router = useRouter();
@@ -36,7 +39,27 @@ export default function JudgePage() {
   const { isDragging, dragOffset, direction, handleDragStart, handleDragMove, handleDragEnd } = useDragGesture();
 
   // Current account data
-  const currentAccount = mockAccounts[currentAccountIndex];
+  const currentAccount = accounts[currentAccountIndex];
+
+  // Fetch accounts from Lens Protocol
+  useEffect(() => {
+    const loadAccounts = async () => {
+      setIsLoadingAccounts(true);
+      try {
+        const fetchedAccounts = await fetchAccounts(10);
+        setAccounts(fetchedAccounts);
+      } catch (error) {
+        console.error("Error loading accounts:", error);
+        toast.error("Failed to load accounts. Please try again later.");
+      } finally {
+        setIsLoadingAccounts(false);
+      }
+    };
+
+    if (hasPermission) {
+      loadAccounts();
+    }
+  }, [hasPermission]);
 
   // Check permissions before mounting the component
   useEffect(() => {
@@ -55,10 +78,10 @@ export default function JudgePage() {
 
   // Check for completion
   useEffect(() => {
-    if (currentAccountIndex >= mockAccounts.length - 1) {
+    if (accounts.length > 0 && currentAccountIndex >= accounts.length - 1) {
       setCompleted(true);
     }
-  }, [currentAccountIndex]);
+  }, [currentAccountIndex, accounts]);
 
   // Vote handler
   const handleVote = (isUpvote: boolean) => {
@@ -109,7 +132,7 @@ export default function JudgePage() {
   };
 
   // Loading state
-  if (isLoadingNFT || hasPermission === null) {
+  if (isLoadingNFT || isLoadingAccounts || hasPermission === null) {
     return <LoadingState />;
   }
 
@@ -132,7 +155,7 @@ export default function JudgePage() {
       <div className="container relative flex h-full flex-col">
         <JudgeHeader
           currentIndex={currentAccountIndex}
-          totalAccounts={mockAccounts.length}
+          totalAccounts={accounts.length}
           reputationScore={reputationScore}
         />
 
