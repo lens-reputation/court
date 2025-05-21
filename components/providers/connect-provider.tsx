@@ -27,11 +27,13 @@ function ConnectMonitor() {
 export function ConnectProvider({ children }: { children: React.ReactNode }) {
   const [isLoginLensDialogOpen, setIsLoginLensDialogOpen] = useState(false);
 
-  const { setWalletAddress } = useAuthStore();
+  const { setWalletAddress, setAccount, setLensSession } = useAuthStore();
 
   const handleDisconnect = async () => {
     // Clear wallet address on disconnect
     setWalletAddress(null);
+    setAccount(null);
+    setLensSession(null);
   };
 
   const handleConnect = async (walletAddress: string) => {
