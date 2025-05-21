@@ -25,7 +25,6 @@ interface AuthContextProps {
   isLoading: boolean;
   login: (address: string, onLogedInSuccess?: () => void) => void;
   logout: () => void;
-  loginAnonymously: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -54,35 +53,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     enabled: !!lensSession?.address,
     staleTime: 1000 * 60 * 5,
   });
-
-  // Fetch the Lens account when the lens session is available
-  useEffect(() => {
-    setIsLoading(isLensAccountLoading);
-    if (lensAccount) {
-      lensAccount.match(
-        account => setAccount(account),
-        error => console.error("Failed to resolve lensAccount:", error),
-      );
-      setIsLoading(false);
-    }
-  }, [lensAccount, isLensAccountLoading]);
-
-  // Check if the wallet is connected and if the lens session is valid
-  useEffect(() => {
-    setIsLoggedIn(walletStatus === "connected" && !!lensSession?.address);
-
-    if (walletStatus == "disconnected" && lensSession) {
-      logout();
-    }
-  }, [walletStatus, lensSession?.address]);
-
-  // Login anonymously means user is not logged in with Lens
-  const loginAnonymously = useCallback(() => {
-    setAccount(null);
-    setIsAnonymous(true);
-    setIsLoggedIn(false);
-    setIsLoading(false);
-  }, []);
 
   // Login with Lens
   const login = useCallback(
@@ -146,6 +116,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(false);
   }, [walletStatus, account, logoutLens, disconnect]);
 
+  // Effect for managing authentication state and loading status
+  useEffect(() => {
+    // Update loading state based on Lens account loading
+    setIsLoading(isLensAccountLoading);
+
+    // Set login status based on wallet and lens session
+    setIsLoggedIn(walletStatus === "connected" && !!lensSession?.address);
+
+    // Handle Lens account data
+    if (lensAccount) {
+      lensAccount.match(
+        account => setAccount(account),
+        error => console.error("Failed to resolve lensAccount:", error),
+      );
+      setIsLoading(false);
+    }
+  }, [lensAccount, isLensAccountLoading, walletStatus, lensSession]);
+
+  // Separate effect for handling wallet disconnection
+  useEffect(() => {
+    if (walletStatus === "disconnected" && lensSession) {
+      logout();
+    }
+  }, [walletStatus, lensSession, logout]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -158,7 +153,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isLoading,
         login,
         logout,
-        loginAnonymously,
       }}
     >
       {children}

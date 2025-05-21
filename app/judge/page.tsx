@@ -127,7 +127,7 @@ export default function JudgePage() {
   const { toast } = useToast();
   const router = useRouter();
   const isMobile = useMobile();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isLoading: isAuthLoading } = useAuth();
   const { hasMintedReputation, isLoading: isLoadingNFT } = useLensReputation();
 
   const currentProfile = mockProfiles[currentProfileIndex];
@@ -135,8 +135,8 @@ export default function JudgePage() {
 
   // Check permissions before mounting the component
   useEffect(() => {
-    // If still loading NFT status, don't make any decision yet
-    if (isLoadingNFT) return;
+    // Wait until both auth and NFT status have loaded
+    if (isAuthLoading || isLoadingNFT) return;
 
     // Check if user has permission to view this page
     if (!isLoggedIn || !hasMintedReputation) {
@@ -146,7 +146,7 @@ export default function JudgePage() {
 
     // Only set permission to true if user is logged in and has minted reputation
     setHasPermission(true);
-  }, [isLoggedIn, hasMintedReputation, isLoadingNFT, router]);
+  }, [isLoggedIn, hasMintedReputation, isLoadingNFT, isAuthLoading, router]);
 
   useEffect(() => {
     if (currentProfileIndex >= 9) {
