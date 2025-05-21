@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Address } from "@/types/common";
-import { useAuth } from "@/components/providers/auth-provider";
+import { useAuthStore } from "@/stores/auth-store";
 
 /**
  * Hook to check if user has minted the LensReputation NFT
@@ -11,7 +11,7 @@ import { useAuth } from "@/components/providers/auth-provider";
 export function useLensReputation() {
   const [hasMintedReputation, setHasMintedReputation] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { account, isWalletConnected } = useAuth();
+  const { account, isWalletConnected } = useAuthStore();
 
   useEffect(() => {
     const checkReputationNFT = async (userAddress: Address) => {

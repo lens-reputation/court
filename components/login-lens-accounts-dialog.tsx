@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuth } from "@/components/providers/auth-provider";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -11,6 +10,7 @@ import { fetchAccountsAvailable } from "@lens-protocol/client/actions";
 import { AccountAvailable, evmAddress } from "@lens-protocol/react";
 import { Loader2 } from "lucide-react";
 import { useAccount } from "wagmi";
+import { useLogin } from "@/hooks/use-login";
 
 interface LoginLensAccountsDialogProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ export function LoginLensAccountsDialog({ isOpen, onClose }: LoginLensAccountsDi
   const [lensAccounts, setLensAccounts] = useState<AccountAvailable[]>([]);
   const [isLoadingAccounts, setIsLoadingAccounts] = useState(true);
 
-  const { login } = useAuth();
+  const { login } = useLogin();
   const { status, address } = useAccount();
 
   useEffect(() => {

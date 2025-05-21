@@ -11,7 +11,6 @@ import { JudgeFooter } from "@/components/judge/judge-footer";
 import { JudgeHeader } from "@/components/judge/judge-header";
 import { LoadingState } from "@/components/judge/loading-state";
 import { PageLayout } from "@/components/judge/page-layout";
-import { useAuth } from "@/components/providers/auth-provider";
 import { useDragGesture } from "@/hooks/use-drag-gesture";
 import { useLensReputation } from "@/hooks/use-lens-reputation";
 import { useMobile } from "@/hooks/use-mobile";
@@ -19,6 +18,7 @@ import { fetchAccounts } from "@/lib/lens/accounts";
 import { Account } from "@/types/account";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function JudgePage() {
   // State management
@@ -34,7 +34,7 @@ export default function JudgePage() {
   // Hooks
   const router = useRouter();
   const isMobile = useMobile();
-  const { isLoggedIn, isLoading: isAuthLoading } = useAuth();
+  const { isLoggedIn, isLoading: isAuthLoading } = useAuthStore();
   const { hasMintedReputation, isLoading: isLoadingNFT } = useLensReputation();
   const { isDragging, dragOffset, direction, handleDragStart, handleDragMove, handleDragEnd } = useDragGesture();
 

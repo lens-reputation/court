@@ -2,19 +2,18 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { LoginConnectButton } from "@/components/login-connect-button";
-import { useAuth } from "@/components/providers/auth-provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLensReputation } from "@/hooks/use-lens-reputation";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Award, Gavel, Loader2, Shield } from "lucide-react";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function ConnectPage() {
   const [mounted, setMounted] = useState(false);
 
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuthStore();
   const { hasMintedReputation, isLoading: isLoadingNFT } = useLensReputation();
 
   // Ensure animations only run after component is mounted

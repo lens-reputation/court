@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoginLensAccountsDialog } from "@/components/login-lens-accounts-dialog";
-import { useAuth } from "@/components/providers/auth-provider";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,11 +12,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ConnectKitButton } from "connectkit";
 import { ChevronDown, Loader2, LogOut, User, Wallet } from "lucide-react";
+import { useAuthStore } from "@/stores/auth-store";
 
 export function LoginConnectButton() {
   const [showLensDialog, setShowLensDialog] = useState(false);
 
-  const { isLoading: isAuthLoading, account, logout } = useAuth();
+  const { isLoading: isAuthLoading, account, logout } = useAuthStore();
 
   return (
     <>

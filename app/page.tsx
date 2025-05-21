@@ -3,17 +3,17 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { LoginConnectButton } from "@/components/login-connect-button";
-import { useAuth } from "@/components/providers/auth-provider";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Gavel, Shield, Star, Trophy, Users } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuthStore();
 
   // Ensure animations only run after component is mounted
   useEffect(() => {
