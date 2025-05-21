@@ -21,7 +21,6 @@ interface AuthContextProps {
   isWalletConnected: boolean;
   lensSession: AuthenticatedUser | null;
   isLoggedIn: boolean;
-  isAnonymous: boolean;
   isLoading: boolean;
   login: (address: string, onLogedInSuccess?: () => void) => void;
   logout: () => void;
@@ -32,7 +31,6 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [account, setAccount] = useState<Account | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAnonymous, setIsAnonymous] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const { address: walletAddress, status: walletStatus } = useAccount();
@@ -88,8 +86,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           console.error("Failed to fetch account:", result.error);
         }
         if (onLogedInSuccess) {
-          onLogedInSuccess();
           setIsLoggedIn(true);
+          onLogedInSuccess();
         }
       } catch (error) {
         console.error("Error during login:", error);
@@ -113,7 +111,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setAccount(null);
       }
       setIsLoggedIn(false);
-      setIsAnonymous(false);
     } catch (error) {
       console.error("Error during logout process:", error);
     } finally {
@@ -139,13 +136,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(false);
   }, [lensAccount, isLensAccountLoading, walletStatus, lensSession]);
 
-  // Separate effect for handling wallet disconnection
-  useEffect(() => {
-    if (walletStatus === "disconnected" && lensSession) {
-      logout();
-    }
-  }, [walletStatus, lensSession, logout]);
-
   return (
     <AuthContext.Provider
       value={{
@@ -154,7 +144,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isWalletConnected: walletStatus === "connected",
         lensSession: lensSession || null,
         isLoggedIn,
-        isAnonymous,
         isLoading,
         login,
         logout,

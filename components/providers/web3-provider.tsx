@@ -1,10 +1,11 @@
 "use client";
 
+import { ConnectProvider } from "@/components/providers/connect-provider";
 import { lensMainnet } from "@/lib/chains/lens-mainnet";
 import { client } from "@/lib/clients/lens-protocol-mainnet";
-import { LensProvider } from "@lens-protocol/react";
+import { LensProvider, useLogout } from "@lens-protocol/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import { getDefaultConfig } from "connectkit";
 import { WagmiProvider, createConfig, http } from "wagmi";
 
 // Create a new query client for TanStack Query
@@ -39,7 +40,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <LensProvider client={client}>
-          <ConnectKitProvider>{children}</ConnectKitProvider>
+          <ConnectProvider>{children}</ConnectProvider>
         </LensProvider>
       </QueryClientProvider>
     </WagmiProvider>
