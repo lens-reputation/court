@@ -409,7 +409,7 @@ export default function Home() {
               Privacy
             </Link>
             <a
-              href="https://github.com"
+              href="https://github.com/lens-reputation/court"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-gray-500 transition-colors hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
