@@ -13,11 +13,13 @@ import {
 import { ConnectKitButton } from "connectkit";
 import { ChevronDown, Loader2, LogOut, User, Wallet } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
+import { useLogout } from "@/hooks/use-logout";
 
 export function LoginConnectButton() {
   const [showLensDialog, setShowLensDialog] = useState(false);
 
-  const { isLoading: isAuthLoading, account, logout } = useAuthStore();
+  const { isLoading: isAuthLoading, account } = useAuthStore();
+  const { logout } = useLogout();
 
   return (
     <>
