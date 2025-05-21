@@ -7,6 +7,7 @@ import { LoginConnectButton } from "@/components/login-connect-button";
 import { useAuth } from "@/components/providers/auth-provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLensReputation } from "@/hooks/use-lens-reputation";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Award, Gavel, Loader2, Shield } from "lucide-react";
 
@@ -15,18 +16,19 @@ export default function ConnectPage() {
 
   const router = useRouter();
   const { isLoggedIn } = useAuth();
+  const { hasMintedReputation, isLoading: isLoadingNFT } = useLensReputation();
 
   // Ensure animations only run after component is mounted
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Redirect to judge page if user is already logged in
+  // Redirect to judge page if user is already logged in and has minted reputation
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && hasMintedReputation && !isLoadingNFT) {
       router.push("/judge");
     }
-  }, [isLoggedIn, router]);
+  }, [isLoggedIn, hasMintedReputation, isLoadingNFT, router]);
 
   if (!mounted) return null;
 
@@ -136,24 +138,52 @@ export default function ConnectPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 1.1 }}
-                  className="flex w-full gap-3"
+                  className="flex w-full flex-col gap-3 sm:flex-row"
                 >
                   {isLoggedIn && (
                     <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-1">
-                      <Button variant="default" className="w-full bg-purple-600 text-white hover:bg-purple-700" asChild>
-                        <Link href="/judge" className="flex items-center justify-center gap-2">
-                          <Gavel className="h-5 w-5" />
-                          Go Judge
-                          <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </Button>
+                      {isLoadingNFT ? (
+                        <Button
+                          variant="default"
+                          className="w-full bg-purple-600 text-white hover:bg-purple-700"
+                          disabled
+                        >
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Checking...
+                        </Button>
+                      ) : hasMintedReputation ? (
+                        <Button
+                          variant="default"
+                          className="w-full bg-purple-600 text-white hover:bg-purple-700"
+                          asChild
+                        >
+                          <Link href="/judge" className="flex items-center justify-center gap-2">
+                            <Gavel className="h-5 w-5" />
+                            Go Judge
+                            <ArrowRight className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                      ) : (
+                        <Button variant="default" className="w-full bg-amber-500 text-white hover:bg-amber-600" asChild>
+                          <Link
+                            href="https://lensreputation.xyz"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-1"
+                          >
+                            <Award className="h-4 w-4" />
+                            <span className="whitespace-nowrap text-sm">Mint reputation</span>
+                            <ArrowRight className="h-3 w-3" />
+                          </Link>
+                        </Button>
+                      )}
                     </motion.div>
                   )}
                   <motion.div
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    className={isLoggedIn ? "flex-1" : "mx-auto flex w-full justify-center"}
-                    style={!isLoggedIn ? { maxWidth: "240px" } : {}}
+                    className={isLoggedIn ? "flex-1" : "flex w-full justify-center"}
+                    style={!isLoggedIn ? { maxWidth: "240px", margin: "0 auto" } : {}}
                   >
                     <LoginConnectButton />
                   </motion.div>
