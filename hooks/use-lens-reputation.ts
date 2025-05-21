@@ -33,7 +33,6 @@ export function useLensReputation() {
       checkReputationNFT(account?.address);
     } else {
       setHasMintedReputation(false);
-      setIsLoading(false);
     }
   }, [account, isWalletConnected]);
 

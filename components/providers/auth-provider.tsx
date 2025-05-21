@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Effect for managing authentication state and loading status
   useEffect(() => {
     // Update loading state based on Lens account loading
-    setIsLoading(isLensAccountLoading);
+    setIsLoading(true);
 
     // Set login status based on wallet and lens session
     setIsLoggedIn(walletStatus === "connected" && !!lensSession?.address);
@@ -130,8 +130,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         account => setAccount(account),
         error => console.error("Failed to resolve lensAccount:", error),
       );
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, [lensAccount, isLensAccountLoading, walletStatus, lensSession]);
 
   // Separate effect for handling wallet disconnection
