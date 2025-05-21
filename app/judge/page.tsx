@@ -18,8 +18,8 @@ import { useToast } from "@/hooks/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Award, ExternalLink, Gavel, ThumbsDown, ThumbsUp } from "lucide-react";
 
-// Mock data for profiles
-const mockProfiles = [
+// Mock data for accounts
+const mockAccounts = [
   {
     id: 1,
     handle: "alice.lens",
@@ -113,7 +113,7 @@ const mockProfiles = [
 ];
 
 export default function JudgePage() {
-  const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+  const [currentAccountIndex, setCurrentAccountIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const [direction, setDirection] = useState<"" | "left" | "right">("");
   const [isDragging, setIsDragging] = useState(false);
@@ -130,8 +130,8 @@ export default function JudgePage() {
   const { isLoggedIn, isLoading: isAuthLoading } = useAuth();
   const { hasMintedReputation, isLoading: isLoadingNFT } = useLensReputation();
 
-  const currentProfile = mockProfiles[currentProfileIndex];
-  const progress = (currentProfileIndex / mockProfiles.length) * 100;
+  const currentAccount = mockAccounts[currentAccountIndex];
+  const progress = (currentAccountIndex / mockAccounts.length) * 100;
 
   // Check permissions before mounting the component
   useEffect(() => {
@@ -149,10 +149,10 @@ export default function JudgePage() {
   }, [isLoggedIn, hasMintedReputation, isLoadingNFT, isAuthLoading, router]);
 
   useEffect(() => {
-    if (currentProfileIndex >= 9) {
+    if (currentAccountIndex >= 9) {
       setCompleted(true);
     }
-  }, [currentProfileIndex]);
+  }, [currentAccountIndex]);
 
   const handleVote = (isUpvote: boolean) => {
     // Set exit direction for animation
@@ -166,15 +166,15 @@ export default function JudgePage() {
 
     // Show toast notification
     toast({
-      title: isUpvote ? "Profile Approved! 👍" : "Profile Flagged! 👎",
-      description: `You've ${isUpvote ? "approved" : "flagged"} ${currentProfile.handle}. Your vote has been weighted by your reputation score.`,
+      title: isUpvote ? "Account Approved! 👍" : "Account Flagged! 👎",
+      description: `You've ${isUpvote ? "approved" : "flagged"} ${currentAccount.handle}. Your vote has been weighted by your reputation score.`,
       variant: isUpvote ? "default" : "destructive",
     });
 
-    // Move to next profile after animation
+    // Move to next account after animation
     // Using a longer timeout to ensure the exit animation completes fully
     setTimeout(() => {
-      setCurrentProfileIndex(prev => prev + 1);
+      setCurrentAccountIndex(prev => prev + 1);
       setExitDirection(null);
     }, 500);
   };
@@ -317,7 +317,7 @@ export default function JudgePage() {
                 transition={{ duration: 0.5, delay: 0.5 }}
                 className="mb-5 text-sm text-gray-600 dark:text-gray-300"
               >
-                You've successfully judged 10 profiles. Your contributions help make the Lens network a better place!
+                You've successfully judged 10 accounts. Your contributions help make the Lens network a better place!
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -394,7 +394,7 @@ export default function JudgePage() {
           <div className="mt-4 space-y-1">
             <div className="flex justify-between text-sm">
               <span className="text-gray-600 dark:text-gray-300">
-                Profile {currentProfileIndex + 1} of {mockProfiles.length}
+                Account {currentAccountIndex + 1} of {mockAccounts.length}
               </span>
               <span className="text-gray-600 dark:text-gray-300">{Math.floor(progress)}% complete</span>
             </div>
@@ -420,7 +420,7 @@ export default function JudgePage() {
           >
             <AnimatePresence mode="wait">
               <motion.div
-                key={currentProfileIndex}
+                key={currentAccountIndex}
                 ref={cardRef}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
@@ -449,28 +449,28 @@ export default function JudgePage() {
                   <CardContent className="p-4 pt-0">
                     <div className="-mt-10 flex justify-center">
                       <Avatar className="h-20 w-20 border-4 border-white shadow-lg dark:border-gray-800">
-                        <AvatarImage src={currentProfile.avatar || "/placeholder.svg"} alt={currentProfile.name} />
+                        <AvatarImage src={currentAccount.avatar || "/placeholder.svg"} alt={currentAccount.name} />
                         <AvatarFallback className="bg-gradient-to-br from-purple-400 to-pink-400 text-xl font-bold text-white">
-                          {currentProfile.name.charAt(0)}
+                          {currentAccount.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                     </div>
 
                     <div className="mt-3 text-center">
-                      <h2 className="text-xl font-bold">{currentProfile.name}</h2>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">@{currentProfile.handle}</p>
+                      <h2 className="text-xl font-bold">{currentAccount.name}</h2>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">@{currentAccount.handle}</p>
                     </div>
 
                     <div className="mt-3 space-y-3">
-                      <p className="text-center text-sm text-gray-600 dark:text-gray-300">{currentProfile.bio}</p>
+                      <p className="text-center text-sm text-gray-600 dark:text-gray-300">{currentAccount.bio}</p>
 
                       <div className="flex justify-center gap-8 text-center">
                         <div>
-                          <p className="font-bold">{currentProfile.posts}</p>
+                          <p className="font-bold">{currentAccount.posts}</p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">Posts</p>
                         </div>
                         <div>
-                          <p className="font-bold">{currentProfile.followers}</p>
+                          <p className="font-bold">{currentAccount.followers}</p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">Followers</p>
                         </div>
                       </div>
@@ -478,7 +478,7 @@ export default function JudgePage() {
 
                     <div className="mt-3 flex justify-center gap-4">
                       <a
-                        href={`https://hey.xyz/u/${currentProfile.handle}`}
+                        href={`https://hey.xyz/u/${currentAccount.handle}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 text-xs font-medium text-purple-600 hover:underline dark:text-purple-400"
@@ -487,7 +487,7 @@ export default function JudgePage() {
                         View on Hey.xyz
                       </a>
                       <a
-                        href={`https://polygonscan.com/address/0x${currentProfile.id.toString(16)}`}
+                        href={`https://polygonscan.com/address/0x${currentAccount.id.toString(16)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 text-xs font-medium text-purple-600 hover:underline dark:text-purple-400"
