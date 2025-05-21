@@ -14,24 +14,13 @@ import { ArrowLeft, ArrowRight, Award, Gavel, Loader2, Shield } from "lucide-rea
 export default function ConnectPage() {
   const [mounted, setMounted] = useState(false);
 
-  const router = useRouter();
-  const { isLoggedIn, isLoading: isAuthLoading } = useAuth();
+  const { isLoggedIn } = useAuth();
   const { hasMintedReputation, isLoading: isLoadingNFT } = useLensReputation();
 
   // Ensure animations only run after component is mounted
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  // Redirect to judge page if user is already logged in and has minted reputation
-  useEffect(() => {
-    // Only redirect when both auth and NFT status have loaded
-    if (isAuthLoading || isLoadingNFT) return;
-
-    if (isLoggedIn && hasMintedReputation) {
-      router.push("/judge");
-    }
-  }, [isLoggedIn, hasMintedReputation, isLoadingNFT, isAuthLoading, router]);
 
   if (!mounted) return null;
 
