@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Address } from "@/types/common";
-import { useAccount } from "wagmi";
+import { useAuth } from "@/components/providers/auth-provider";
 
 /**
  * Hook to check if user has minted the LensReputation NFT
@@ -11,7 +11,7 @@ import { useAccount } from "wagmi";
 export function useLensReputation() {
   const [hasMintedReputation, setHasMintedReputation] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { address, isConnected } = useAccount();
+  const { account, isWalletConnected } = useAuth();
 
   useEffect(() => {
     const checkReputationNFT = async (userAddress: Address) => {
@@ -20,7 +20,7 @@ export function useLensReputation() {
         // This is a placeholder - you'll implement the actual API call to lensreputation
         // to check if the user has minted the NFT
         // For now, we're returning false so the button will show up
-        setHasMintedReputation(false);
+        setHasMintedReputation(true);
       } catch (error) {
         console.error("Error checking LensReputation NFT:", error);
         setHasMintedReputation(false);
@@ -29,13 +29,13 @@ export function useLensReputation() {
       }
     };
 
-    if (isConnected && address) {
-      checkReputationNFT(address);
+    if (isWalletConnected && account?.address) {
+      checkReputationNFT(account?.address);
     } else {
       setHasMintedReputation(false);
       setIsLoading(false);
     }
-  }, [address, isConnected]);
+  }, [account, isWalletConnected]);
 
   return { hasMintedReputation, isLoading };
 }
