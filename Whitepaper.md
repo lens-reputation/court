@@ -8,7 +8,7 @@
 
 In a social network powered by decentralization and verified activity, reputation is everything. **LensCourt** introduces a complementary layer to the Lens ecosystem and the **LensReputation** protocol: a **community-curated reputation court** that transforms data into collective trust — with human context.
 
-While LensReputation provides the foundation through algorithmically calculated scores based on on-chain and social data, LensCourt adds **human verification**: a peer-reviewed system that allows the most reputable users to vote on the authenticity, consistency, and trustworthiness of profiles within the Lens Chain.
+While LensReputation provides the foundation through algorithmically calculated scores based on on-chain and social data, LensCourt adds **human verification**: a peer-reviewed system that allows the most reputable users to vote on the authenticity, consistency, and trustworthiness of profiles within the Lens Network.
 
 ---
 
@@ -51,7 +51,7 @@ This score is public and defines a user’s eligibility and influence within Len
 * Judges can **review profiles** in daily batches (10 per day max, enforced via cooldown).
 * Judges cast **positive or negative votes** on profiles.
 * Each vote is weighted by the **Judge's Reputation Score** (via LensReputation).
-* Voting data is stored on Lens as account actions, making it fully transparent and queryable.
+* Voting data is stored on Lens as publications, making it fully transparent and queryable.
 * Any user can access LensCourt reviews by changing a profile URL:
   `heyy.xyz/u/meketom` → `lenscourt.xyz/u/meketom`
 
@@ -65,10 +65,18 @@ This score is public and defines a user’s eligibility and influence within Len
 
 ### 4. Utility & Incentives
 
-* Judges may receive **rewards from auctions**, recognition, and exclusive governance rights.
-* Users with high scores gain visibility, status, and potentially access to further roles.
-* Judge Seats become a **symbol of trust and merit** within the Lens ecosystem.
-* Projects and users can use **vote-weighted reputation insights** to evaluate profiles.
+LensCourt transforms being a judge into a **merit-based privilege**:
+
+* Only the most reputable can become judges — it’s not a right, it’s earned.
+* Judges gain the **power to vote** on whether other accounts are bots or real, suspicious or trusted.
+* Judges can **subasta (auction)** the Judge Seat NFTs they own — their role has market value.
+* All votes are public and signal trust or distrust to the rest of the network.
+* Judges get a **voice in governance** — helping shape how LensCourt evolves.
+* The more reputable you are, the more your vote weighs.
+* You actively **contribute to cleaning the network**, identifying bots, and supporting real users and creators.
+* Being a judge boosts your standing across the ecosystem and may grant early access to future rewards or roles.
+
+In short: to be a judge is to be trusted, visible, and powerful.
 
 ---
 
