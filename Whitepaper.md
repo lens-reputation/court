@@ -30,11 +30,11 @@ Our ultimate goal is to build:
 
 #### 3.1 Reputation Score (via LensReputation)
 
-Every profile on Lens gets a dynamic **Reputation Score**, calculated through the LensReputation protocol, combining:
+Every account can get a dynamic **Reputation Score**, calculated through the LensReputation protocol, combining:
 
-* Protocol activity (posts, followers, Lens Handle, account age).
-* On-chain interactions (transactions, volume, contract usage).
-* Financial signals (balance, token diversity, fee payments).
+* Protocol activity.
+* On-chain interactions.
+* Financial signals.
 * Weekly consistency and time-weighted factors.
 
 This score is public and defines a user’s eligibility and influence within LensCourt.
