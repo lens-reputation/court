@@ -28,7 +28,7 @@ LensCourt operates as a protocol that builds on the LensReputation score, adding
 
 Users can mint a dynamic **Reputation Score** through LensReputation. This score is calculated based on a combination of protocol activity, on-chain interactions, financial behavior, and time-weighted consistency. It determines each user’s eligibility and weight in the LensCourt system.
 
-Those who achieve a score above **600** are eligible to mint a **Judge Seat**, after paying a one-time fee of **\$10**. Judge Seats are issued as **soulbound NFTs**, symbolizing access and authority. Although soulbound and non-transferable in traditional terms, these seats can be **auctioned**, allowing other accounts to obtain them. Auctions include a **5% fee** that is redirected to the protocol.
+Those who achieve a score above **500** are eligible to mint a **Judge Seat**, after paying a one-time fee of **\$10**. Judge Seats are issued as **soulbound NFTs**, symbolizing access and authority. Although soulbound and non-transferable in traditional terms, these seats can be **auctioned**, allowing other accounts to obtain them. Auctions include a **5% fee** that is redirected to the protocol.
 
 Judges participate in daily curation tasks, where they can review up to 10 accounts per day. They cast either a positive or negative vote based on the perceived authenticity and trustworthiness of the account. Each vote is **weighted** by the judge’s own Reputation Score. Voting data is recorded transparently on Lens as account action.
 
