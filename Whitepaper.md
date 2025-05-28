@@ -26,13 +26,13 @@ Our ultimate goal is to build a human-curated reputation layer backed by data an
 
 LensCourt operates as a protocol that builds on the LensReputation score, adding an extra layer of judgment, accountability, and community-driven trust.
 
-Users can mint a dynamic **Reputation Score** through LensReputation. This score is calculated based on a combination of protocol activity, on-chain interactions, financial behavior, and time-weighted consistency. It determines each user’s eligibility and weight in the LensCourt system.
+Accounts can mint a dynamic Reputation Score through LensReputation. This score is calculated based on a combination of protocol activity, on-chain interactions, financial behavior, and time-weighted consistency. It determines each user’s eligibility and weight in the LensCourt system.
 
-Those who achieve a score above **500** are eligible to mint a **Judge Seat**, after paying a one-time fee of **\$10**. Judge Seats are issued as **soulbound NFTs**, symbolizing access and authority. Although soulbound and non-transferable in traditional terms, these seats can be **auctioned**, allowing other accounts to obtain them. Auctions include a **5% fee** that is redirected to the protocol.
+There will be multiple minting rounds, each with its own LensReputation score threshold. Account that meet the threshold for an active round can mint a Judge Seat by paying a one-time fee of $10. Judge Seats are issued as soulbound NFTs, symbolizing access and authority. Although soulbound and non-transferable in traditional terms, these seats can be auctioned, allowing other accounts to obtain them. Auctions include a 5% fee redirected to the protocol, with the remaining 95% going to the seller.
 
-Judges participate in daily curation tasks, where they can review up to 10 accounts per day. They cast either a positive or negative vote based on the perceived authenticity and trustworthiness of the account. Each vote is **weighted** by the judge’s own Reputation Score. Voting data is recorded transparently on Lens as account action.
+Judges participate in daily curation tasks, where they can review up to 10 accounts per day. They cast either a positive or negative vote based on the perceived authenticity and trustworthiness of the account. Each vote is weighted by the judge’s own Reputation Score. Voting data is recorded transparently on Lens as account action.
 
-Judge Seats also grant **governance rights**. Seat holders are empowered to vote on protocol upgrades, changes in the scoring mechanics, and proposals regarding incentive mechanisms or penalties. Governance is designed to be progressive, evolving with the needs of the community.
+Judge Seats also grant governance rights. Seat holders are empowered to vote on protocol upgrades, changes in the scoring mechanics, and proposals regarding incentive mechanisms or penalties. Governance is designed to be progressive, evolving with the needs of the community.
 
 ---
 
@@ -40,7 +40,11 @@ Judge Seats also grant **governance rights**. Seat holders are empowered to vote
 
 Being a Judge is not just a role — it's a social distinction in the Lens ecosystem. Judges help detect bots, highlight suspicious behaviors, and elevate trustworthy accounts. They play a critical role in shaping the network's consensus on what constitutes a reputable user.
 
-Judge Seats act as a **mark of verified reputation**, signaling earned influence and enabling voting within the protocol. Additionally, developers and users can leverage the LensCourt signals — filtered through vote weight and human consensus — to evaluate accounts across dApps.
+Judge Seats act as a mark of verified reputation, signaling earned influence and enabling voting within the protocol. Additionally, developers and users can leverage the LensCourt signals — filtered through vote weight and human consensus — to evaluate accounts across dApps.
+
+While soulbound and non-transferable in the traditional sense, Judge Seats are auctionable at any time. Judges may choose to put their Seat up for auction, with 5% of the proceeds going to the protocol and 95% to the seller. This creates a dynamic secondary market for reputation-based access.
+
+Judge Seats also grant governance rights. Seat holders are empowered to vote on protocol upgrades, changes in the scoring mechanics, and proposals regarding incentive mechanisms or penalties. Governance is designed to be progressive, evolving with the needs of the community.
 
 ---
 
